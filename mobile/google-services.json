@@ -1,0 +1,42 @@
+{
+	"project_info": {
+		"project_number": "XXXXXXXXXXX",
+		"firebase_url": "https://dummy.firebaseio.com",
+		"project_id": "dummy",
+		"storage_bucket": "dummy.appspot.com"
+	},
+	"client": [
+		{
+			"client_info": {
+				"mobilesdk_app_id": "1:1035469437089:android:73a4fb8297b2cd4f",
+				"android_client_info": {
+					"package_name": "com.robotemplates.webviewapp"
+				}
+			},
+			"oauth_client": [
+				{
+					"client_id": "dummy.apps.googleusercontent.com",
+					"client_type": 3
+				}
+			],
+			"api_key": [
+				{
+					"current_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+				}
+			],
+			"services": {
+				"analytics_service": {
+					"status": 1
+				},
+				"appinvite_service": {
+					"status": 1,
+					"other_platform_oauth_client": []
+				},
+				"ads_service": {
+					"status": 2
+				}
+			}
+		}
+	],
+	"configuration_version": "1"
+}
