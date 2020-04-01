@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:installLocation="auto"
+	package="com.robotemplates.webviewapp">
+
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.CAMERA" />
+
+	<!--
+	You can easily change the main theme. Just modify application.android:theme attribute.
+	There are 10 themes you can use:
+		Theme.WebViewApp.Blue
+		Theme.WebViewApp.Brown
+		Theme.WebViewApp.Gray
+		Theme.WebViewApp.Green
+		Theme.WebViewApp.Lime
+		Theme.WebViewApp.Orange
+		Theme.WebViewApp.Purple
+		Theme.WebViewApp.Red
+		Theme.WebViewApp.Teal
+		Theme.WebViewApp.Violet
+	-->
+
+	<application
+		android:name=".WebViewAppApplication"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/Theme.WebViewApp.Blue"
+		android:hardwareAccelerated="true"
+		android:allowBackup="true"
+		android:supportsRtl="true"
+		android:usesCleartextTraffic="true"
+		tools:ignore="AllowBackup,UnusedAttribute">
+
+		<activity
+			android:name=".activity.MainActivity"
+			android:label="@string/app_name"
+			android:launchMode="standard"
+			android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" />
+				<data android:scheme="https" />
+				<data android:host="@string/app_deep_link_host" />
+				<data android:pathPrefix="@string/app_deep_link_path" />
+			</intent-filter>
+		</activity>
+
+		<service
+			android:name=".fcm.WebViewAppFirebaseMessagingService"
+			android:stopWithTask="false"
+			tools:ignore="ExportedService">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_icon"
+			android:resource="@drawable/ic_stat_notification" />
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_color"
+			android:resource="@color/global_color_accent" />
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_channel_id"
+			android:value="@string/fcm_default_notification_channel_id" />
+
+	</application>
+</manifest>

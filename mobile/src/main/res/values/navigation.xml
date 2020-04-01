@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--
+	This is a configuration file for navigation menu. You can add/remove/modify menu items as you need.
+	Important: each of these 4 arrays below must contain the same number of items.
+	-->
+
+	<!-- List of titles in navigation drawer menu -->
+	<string-array name="navigation_title_list">
+		<item>Menu</item>
+		<item>Home</item>
+		<item>Our Products</item>
+		<item>References</item>
+		<item>Support</item>
+		<item>Info</item>
+		<item>About Us</item>
+		<item>Contact</item>
+		<item>Privacy Policy</item>
+	</string-array>
+
+	<!--
+	List of webview URLs. You can specify URL link to a web page on the Internet or
+	URL link to a local page stored in assets directory. Local page does not require Internet connection.
+	URL to the local page must be in this format: file:///android_asset/example.html
+	If you want to add a category, leave the item empty. Menu item without URL is considered as a category item.
+	-->
+	<string-array name="navigation_url_list">
+		<item></item>
+		<item>https://wo.codeui.cn/</item>	<!-- 修改你域名 -->
+		<item>http://mock.robotemplates.com/webviewapp/products.html</item>
+		<item>http://mock.robotemplates.com/webviewapp/references.html</item>
+		<item>http://mock.robotemplates.com/webviewapp/support.html</item>
+		<item></item>
+		<item>http://mock.robotemplates.com/webviewapp/about.html</item>
+		<item>file:///android_asset/contact.html</item>
+		<item>http://robotemplates.com/legal/privacy-policy.html</item>
+	</string-array>
+
+	<!-- List of icons in navigation drawer menu -->
+	<string-array name="navigation_icon_list">
+		<item></item>
+		<item>@drawable/ic_navigation_home</item>
+		<item>@drawable/ic_navigation_products</item>
+		<item>@drawable/ic_navigation_references</item>
+		<item>@drawable/ic_navigation_support</item>
+		<item></item>
+		<item>@drawable/ic_navigation_about</item>
+		<item>@drawable/ic_navigation_contact</item>
+		<item>@drawable/ic_navigation_key</item>
+	</string-array>
+
+	<!--
+	List of share messages. Each webview page can be shared via e-mail, sms, social networks etc.
+	Share button is in the action bar. You can specify a message which will be posted.
+	Use {TITLE} or {URL} tags if you want to insert a title or a URL link of the page.
+	If you don't want to share the page, leave the item empty.
+	-->
+	<string-array name="navigation_share_list">
+		<item></item>
+		<item>See this page: {TITLE} - {URL}</item>
+		<item>See this page: {TITLE} - {URL}</item>
+		<item>See this page: {TITLE} - {URL}</item>
+		<item>See this page: {TITLE} - {URL}</item>
+		<item></item>
+		<item>See this page: {TITLE} - {URL}</item>
+		<item></item>
+		<item></item>
+	</string-array>
+</resources>

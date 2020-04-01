@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name" translatable="false">脉聊</string>	<!-- 修改APP名称 -->
+    <string name="app_store_uri" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
+	<string name="app_deep_link_host" translatable="false">robotemplates.com</string>
+	<string name="app_deep_link_path" translatable="false">/webviewapp</string>
+	<string name="fcm_default_notification_channel_id" translatable="false">general</string>
+	<string name="fcm_default_notification_channel_title">General notifications</string>
+
+	<string name="navigation_header_title">WebView App</string>
+
+	<string name="global_network_offline">No Internet connection available</string>
+
+	<string name="menu_main_share">Share</string>
+
+	<string name="drawer_open">Open navigation drawer</string>
+	<string name="drawer_close">Close navigation drawer</string>
+
+	<string name="placeholder_empty">Not found</string>
+	<string name="placeholder_offline">No Internet connection available</string>
+
+	<string name="permission_read_external_storage">Permission to read files is required</string>
+	<string name="permission_write_external_storage">Permission to write files is required</string>
+	<string name="permission_access_location">Permission to access your location is required</string>
+	<string name="permission_camera">Permission to access your camera is required</string>
+
+	<string name="location_settings_snackbar">Device location is disabled</string>
+	<string name="location_settings_confirm">Settings</string>
+
+	<string name="main_exit_snackbar">你确定要退出应用程序吗?</string>
+	<string name="main_exit_confirm">是</string>
+	<string name="main_rate_snackbar">Do you like this app? Rate it on Play Store. Thanks for your support.</string>
+	<string name="main_rate_confirm">Rate</string>
+	<string name="main_downloading">Downloading…</string>
+</resources>
