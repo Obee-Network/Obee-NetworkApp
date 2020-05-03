@@ -25,28 +25,28 @@ import im.delight.android.webview.AdvancedWebView;
  * @author Cristian Perez (http://cpr.name)
  *
  */
-public class VideoEnabledWebView extends AdvancedWebView
-{
-    public class JavascriptInterface
-    {
-        @android.webkit.JavascriptInterface @SuppressWarnings("unused")
-        public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
-        {
-            Log.d("___", "GOT IT");
-            // This code is not executed in the UI thread, so we must force that to happen
-            new Handler(Looper.getMainLooper()).post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    if (videoEnabledWebChromeClient != null)
-                    {
-                        videoEnabledWebChromeClient.onHideCustomView();
-                    }
-                }
-            });
-        }
-    }
+// public class VideoEnabledWebView extends AdvancedWebView
+// {
+//     public class JavascriptInterface
+//     {
+//         @android.webkit.JavascriptInterface @SuppressWarnings("unused")
+//         public void notifyVideoEnd() // Must match Javascript interface method of VideoEnabledWebChromeClient
+//         {
+//             Log.d("___", "GOT IT");
+//             // This code is not executed in the UI thread, so we must force that to happen
+//             new Handler(Looper.getMainLooper()).post(new Runnable()
+//             {
+//                 @Override
+//                 public void run()
+//                 {
+//                     if (videoEnabledWebChromeClient != null)
+//                     {
+//                         videoEnabledWebChromeClient.onHideCustomView();
+//                     }
+//                 }
+//             });
+//         }
+//     }
 
     private VideoEnabledWebChromeClient videoEnabledWebChromeClient;
     private boolean addedJavascriptInterface;
