@@ -51,12 +51,12 @@ import im.delight.android.webview.AdvancedWebView;
     private VideoEnabledWebChromeClient videoEnabledWebChromeClient;
     private boolean addedJavascriptInterface;
 
-    @SuppressWarnings("unused")
-    public VideoEnabledWebView(Context context)
-    {
-        super(context);
-        addedJavascriptInterface = false;
-    }
+    // @SuppressWarnings("unused")
+    // public VideoEnabledWebView(Context context)
+    // {
+    //     super(context);
+    //     addedJavascriptInterface = false;
+    // }
 
     @SuppressWarnings("unused")
     public VideoEnabledWebView(Context context, AttributeSet attrs)
