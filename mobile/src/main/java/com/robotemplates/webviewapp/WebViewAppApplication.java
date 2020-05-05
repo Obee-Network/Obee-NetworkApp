@@ -13,13 +13,13 @@ public class WebViewAppApplication extends BaseApplication {
 		super.onCreate();
 
 		// init logcat
-		Logcat.init(WebViewAppConfig.LOGS, "WEBVIEWAPP");
+		// Logcat.init(WebViewAppConfig.LOGS, "WEBVIEWAPP");
 
-		// init analytics
-		FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(!WebViewAppConfig.DEV_ENVIRONMENT);
+		// // init analytics
+		// FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(!WebViewAppConfig.DEV_ENVIRONMENT);
 
-		// init AdMob
-		MobileAds.initialize(this, WebViewAppConfig.ADMOB_APP_ID);
+		// // init AdMob
+		// MobileAds.initialize(this, WebViewAppConfig.ADMOB_APP_ID);
 	}
 
 	@Override
