@@ -26,10 +26,10 @@ public class AdMobInterstitialHelper {
 	}
 
 	public void checkAd() {
-		if (WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY > 0 && sInterstitialCounter % WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY == 0) {
-			showAd();
-		}
-		sInterstitialCounter++;
+		// if (WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY > 0 && sInterstitialCounter % WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY == 0) {
+		// 	showAd();
+		// }
+		// sInterstitialCounter++;
 	}
 
 	private void loadAd() {
