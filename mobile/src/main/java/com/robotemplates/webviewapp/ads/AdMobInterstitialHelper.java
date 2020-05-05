@@ -11,6 +11,15 @@ public class AdMobInterstitialHelper {
 
 	private InterstitialAd mInterstitialAd;
 
+
+	private void showAd() {
+		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
+			if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+				mInterstitialAd.show();
+			}
+		}
+	}
+	
 	public void setupAd(Context context) {
 		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
 			mInterstitialAd = new InterstitialAd(context);
@@ -38,11 +47,4 @@ public class AdMobInterstitialHelper {
 		sInterstitialCounter++;
 	}
 
-	private void showAd() {
-		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
-			if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-				mInterstitialAd.show();
-			}
-		}
-	}
 }
