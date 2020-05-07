@@ -85,20 +85,7 @@ import im.delight.android.webview.AdvancedWebView;
     /**
      * Pass only a VideoEnabledWebChromeClient instance.
      */
-    @Override @SuppressLint("SetJavaScriptEnabled")
-    public void setWebChromeClient(WebChromeClient client)
-    {
-        getSettings().setJavaScriptEnabled(true);
-
-        if (client instanceof VideoEnabledWebChromeClient)
-        {
-            this.videoEnabledWebChromeClient = (VideoEnabledWebChromeClient) client;
-        }
-
-        super.setWebChromeClient(client);
-    }
-
-    @Override
+	@Override
     public void loadData(String data, String mimeType, String encoding)
     {
         addJavascriptInterface();
@@ -117,6 +104,19 @@ import im.delight.android.webview.AdvancedWebView;
     {
         addJavascriptInterface();
         super.loadUrl(url);
+    }
+	
+    @Override @SuppressLint("SetJavaScriptEnabled")
+    public void setWebChromeClient(WebChromeClient client)
+    {
+        getSettings().setJavaScriptEnabled(true);
+
+        if (client instanceof VideoEnabledWebChromeClient)
+        {
+            this.videoEnabledWebChromeClient = (VideoEnabledWebChromeClient) client;
+        }
+
+        super.setWebChromeClient(client);
     }
 
     @Override
