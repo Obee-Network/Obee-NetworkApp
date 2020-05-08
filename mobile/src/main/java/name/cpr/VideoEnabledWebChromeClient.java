@@ -119,7 +119,13 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements Medi
         this.toggledFullscreenCallback = callback;
     }
 
-    @Override
+    @Override @SuppressWarnings("deprecation")
+    public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) // Available in API level 14+, deprecated in API level 18+
+    {
+        onShowCustomView(view, callback);
+    }
+	
+	@Override
     public void onShowCustomView(View view, CustomViewCallback callback)
     {
         if (view instanceof FrameLayout)
@@ -184,12 +190,6 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements Medi
                 toggledFullscreenCallback.toggledFullscreen(true);
             }
         }
-    }
-
-    @Override @SuppressWarnings("deprecation")
-    public void onShowCustomView(View view, int requestedOrientation, CustomViewCallback callback) // Available in API level 14+, deprecated in API level 18+
-    {
-        onShowCustomView(view, callback);
     }
 
     @Override

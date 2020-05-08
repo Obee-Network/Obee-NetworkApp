@@ -12,7 +12,7 @@ public class WebViewAppApplication extends BaseApplication {
 	public void onCreate() {
 		super.onCreate();
 
-		// init logcat
+		init logcat
 		Logcat.init(WebViewAppConfig.LOGS, "WEBVIEWAPP");
 
 		// init analytics

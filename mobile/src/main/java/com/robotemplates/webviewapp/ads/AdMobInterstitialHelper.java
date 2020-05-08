@@ -11,6 +11,15 @@ public class AdMobInterstitialHelper {
 
 	private InterstitialAd mInterstitialAd;
 
+
+	private void showAd() {
+		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
+			if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+				mInterstitialAd.show();
+			}
+		}
+	}
+	
 	public void setupAd(Context context) {
 		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
 			mInterstitialAd = new InterstitialAd(context);
@@ -25,6 +34,12 @@ public class AdMobInterstitialHelper {
 		}
 	}
 
+	private void loadAd() {
+		if (mInterstitialAd != null) {
+			mInterstitialAd.loadAd(AdMobUtility.createAdRequest());
+		}
+	}
+
 	public void checkAd() {
 		if (WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY > 0 && sInterstitialCounter % WebViewAppConfig.ADMOB_INTERSTITIAL_FREQUENCY == 0) {
 			showAd();
@@ -32,17 +47,4 @@ public class AdMobInterstitialHelper {
 		sInterstitialCounter++;
 	}
 
-	private void loadAd() {
-		if (mInterstitialAd != null) {
-			mInterstitialAd.loadAd(AdMobUtility.createAdRequest());
-		}
-	}
-
-	private void showAd() {
-		if (WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL != null && !WebViewAppConfig.ADMOB_UNIT_ID_INTERSTITIAL.equals("")) {
-			if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-				mInterstitialAd.show();
-			}
-		}
-	}
 }
