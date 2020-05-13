@@ -26,7 +26,7 @@
 	-->
 	<string-array name="navigation_url_list">
 		<item></item>
-		<item>https://wo.codeui.cn/</item>	<!-- 修改你域名 -->
+		<item>https://www.obee.vip</item>	<!-- 修改你域名 -->
 		<item>http://mock.robotemplates.com/webviewapp/products.html</item>
 		<item>http://mock.robotemplates.com/webviewapp/references.html</item>
 		<item>http://mock.robotemplates.com/webviewapp/support.html</item>
