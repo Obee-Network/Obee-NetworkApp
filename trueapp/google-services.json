@@ -1,0 +1,45 @@
+{
+  "project_info": {
+    "project_number": "430795656343",
+    "firebase_url": "https://ObeeNetwork-timeline.firebaseio.com",
+    "project_id": "ObeeNetwork-timeline",
+    "storage_bucket": "ObeeNetwork-timeline.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430795656343:android:9a08d29f782c36f5832dd2",
+        "android_client_info": {
+          "package_name": "com.ObeeNetworktimeline.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430795656343-8lr81tjkkkbcbd00po7dsmah43gbpdlt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ObeeNetworktimeline.app",
+            "certificate_hash": "6775bca90428b86dbc119f508a61e5de039047c7"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYHCzTgtSeree4EjrBHMldLm6ShnCnVD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430795656343-6sre0nh5n8vjrgoanktltvprt09drgeo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-5135691635931982~1668785995"
+    }
+  ],
+  "configuration_version": "1"
+}
