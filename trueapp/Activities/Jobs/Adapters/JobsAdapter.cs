@@ -249,7 +249,81 @@ namespace ObeeNetwork.Activities.Jobs.Adapters
                 return 0;
             }
         }
+        private void InitToolbar()
+        {
+            try
+            {
+               var toolBar = FindViewById<Toolbar>(Resource.Id.toolbar);
+                if (toolBar != null)
+                {
+                    toolBar.Title = GetText(Resource.String.Lbl_jobs);
 
+                    toolBar.SetTitleTextColor(Color.White);
+                    SetSupportActionBar(toolBar);
+                    SupportActionBar.SetDisplayShowCustomEnabled(true);
+                    SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                    SupportActionBar.SetHomeButtonEnabled(true);
+                    SupportActionBar.SetDisplayShowHomeEnabled(true);
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        private void SetRecyclerViewAdapters()
+        {
+            try
+            {
+                MAdapter = new ShowApplyJobsAdapter(this)
+                {
+                    JobList = new ObservableCollection<JobDataObject>()
+                };
+                LayoutManager = new LinearLayoutManager(this);
+                MRecycler.SetLayoutManager(LayoutManager);
+                MRecycler.HasFixedSize = true;
+                MRecycler.SetItemViewCacheSize(10);
+                MRecycler.GetLayoutManager().ItemPrefetchEnabled = true;
+                var sizeProvider = new FixedPreloadSizeProvider(10, 10);
+                var preLoader = new RecyclerViewPreloader<JobDataObject>(this, MAdapter, sizeProvider, 10);
+                MRecycler.AddOnScrollListener(preLoader);
+                MRecycler.SetAdapter(MAdapter);
+
+                RecyclerViewOnScrollListener xamarinRecyclerViewOnScrollListener = new RecyclerViewOnScrollListener(LayoutManager);
+                MainScrollEvent = xamarinRecyclerViewOnScrollListener;
+                MainScrollEvent.LoadMoreEvent += MainScrollEventOnLoadMoreEvent;
+                MRecycler.AddOnScrollListener(xamarinRecyclerViewOnScrollListener);
+                MainScrollEvent.IsLoading = false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        private void AddOrRemoveEvent(bool addEvent)
+        {
+            try
+            {
+                // true +=  // false -=
+                if (addEvent)
+                {
+                    MAdapter.ItemClick += MAdapterOnItemClick;
+                    SwipeRefreshLayout.Refresh += SwipeRefreshLayoutOnRefresh; 
+                }
+                else
+                {
+                    MAdapter.ItemClick -= MAdapterOnItemClick;
+                    SwipeRefreshLayout.Refresh -= SwipeRefreshLayoutOnRefresh; 
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
         private void Click(JobsAdapterClickEventArgs args)
         {
             ItemClick?.Invoke(this, args);
