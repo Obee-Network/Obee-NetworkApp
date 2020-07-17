@@ -116,6 +116,72 @@ namespace ObeeNetwork.Activities.Videos.Fragment
                 Console.WriteLine(e);
             }
         }
+		
+		protected override void OnResume()
+        {
+            try
+            {
+                GC.Collect(0);
+                base.OnResume();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+
+
+        public override void OnBackPressed()
+        {
+            VideoActionsController?.InitFullscreenDialog("Close");
+            base.OnBackPressed();
+        }
+
+        public override void OnTrimMemory(TrimMemory level)
+        {
+            try
+            {
+                
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                base.OnTrimMemory(level);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+
+        public override void OnLowMemory()
+        {
+            try
+            {
+                GC.Collect(GC.MaxGeneration);
+                base.OnLowMemory();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+
+         
+        public void PlayFullScreen()
+        {
+            try
+            {
+                if (FullscreenplayerView != null)
+                {
+                    //WRecyclerView.GetInstance().VideoSurfaceView.Player?.AddListener(PlayerLitsener);
+                    //FullscreenplayerView.Player = Player;
+                   // FullscreenplayerView.Player.PlayWhenReady = true;
+                    //MFullScreenIcon.SetImageDrawable(ActivityContext.GetDrawable(Resource.Drawable.ic_action_ic_fullscreen_skrink));
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
            
         private void AddOrRemoveEvent(bool addEvent)
         {
