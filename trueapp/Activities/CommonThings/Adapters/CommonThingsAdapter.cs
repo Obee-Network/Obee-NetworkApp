@@ -113,6 +113,60 @@ namespace ObeeNetwork.Activities.CommonThings.Adapters
                 return 0;
             }
         }
+		
+		protected override void OnPause()
+        {
+            try
+            {
+                base.OnPause();
+                AddOrRemoveEvent(false);
+
+                MAdView?.Pause();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public override void OnTrimMemory(TrimMemory level)
+        {
+            try
+            {
+                GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                base.OnTrimMemory(level);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public override void OnLowMemory()
+        {
+            try
+            {
+                GC.Collect(GC.MaxGeneration);
+                base.OnLowMemory();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        protected override void OnDestroy()
+        {
+            try
+            {
+                DestroyBasic();
+                base.OnDestroy();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
 
         public override int GetItemViewType(int position)
         {
