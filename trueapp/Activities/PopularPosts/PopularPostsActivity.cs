@@ -147,6 +147,28 @@ namespace ObeeNetwork.Activities.PopularPosts
 
         #region Functions
          
+        private void InitToolbar()
+        {
+            try
+            {
+                var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
+                if (toolbar != null)
+                {
+                    toolbar.Title = GetText(Resource.String.Lbl_Popular_Posts);
+                    toolbar.SetTitleTextColor(Color.White);
+                    SetSupportActionBar(toolbar);
+                    SupportActionBar.SetDisplayShowCustomEnabled(true);
+                    SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+                    SupportActionBar.SetHomeButtonEnabled(true);
+                    SupportActionBar.SetDisplayShowHomeEnabled(true);
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
         private void DestroyBasic()
         {
             try
