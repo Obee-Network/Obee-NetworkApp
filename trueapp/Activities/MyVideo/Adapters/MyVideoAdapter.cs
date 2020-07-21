@@ -95,6 +95,19 @@ namespace ObeeNetwork.Activities.MyVideo.Adapters
             return MyVideoList[position];
         }
 
+        public override long GetItemId(int position)
+        {
+            try
+            {
+                return int.Parse(MyVideoList[position].Id);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return 0;
+            }
+        }
+
         public override int GetItemViewType(int position)
         {
             try
