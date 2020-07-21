@@ -88,7 +88,7 @@ namespace ObeeNetwork.PlacesAsync.Adapters
                     var item = PlacesList[position];
                     if (item != null)
                     {
-                        var drawable = TextDrawable.InvokeBuilder().BeginConfig().FontSize(35).EndConfig().BuildRound(item.Name.Substring(0, 1), Color.ParseColor(AppSettings.MainColor));
+                        var drawable = TextDrawable.InvokeBuilder().BeginConfig().FontSize(36).EndConfig().BuildRound(item.Name.Substring(0, 2), Color.ParseColor(AppSettings.MainColor));
                         holder.Image.SetImageDrawable(drawable);
                          
                         holder.Title.Text = item.Name;  
