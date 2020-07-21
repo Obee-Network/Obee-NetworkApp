@@ -54,6 +54,24 @@ namespace ObeeNetwork.Activities.MyVideo.Adapters
         }
 
         // Replace the contents of a view (invoked by the layout manager)
+        public override void OnBindViewHolder(RecyclerView.ViewHolder viewHolder, int position)
+        {
+            try
+            {
+                if (viewHolder is MyVideoAdapterViewHolder holder)
+                {
+                    var item = MyVideoList[position];
+                    if (item != null)
+                    {
+                        GlideImageLoader.LoadImage(ActivityContext, item.PostFileFull, holder.Image, ImageStyle.CenterCrop, ImagePlaceholders.Color);
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
         public override void OnViewRecycled(Java.Lang.Object holder)
         {
             try
