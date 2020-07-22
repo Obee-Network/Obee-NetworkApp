@@ -157,7 +157,6 @@ namespace ObeeNetwork.Activities.Articles
         }
 
         #endregion
-         
         #region Menu
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -177,7 +176,6 @@ namespace ObeeNetwork.Activities.Articles
                     break;
 
             }
-
             return base.OnOptionsItemSelected(item);
         }
 
@@ -223,7 +221,7 @@ namespace ObeeNetwork.Activities.Articles
                 ImgSent = FindViewById<ImageView>(Resource.Id.send);
 
                 TxtComment.Text = "";
-                Methods.SetColorEditText(TxtComment, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
+                Methods.SetColorEditText(TxtComment, AppSettings.SetTabDarkTheme ? Color.White : Color.green);
             }
             catch (Exception e)
             {

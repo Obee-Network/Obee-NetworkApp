@@ -54,16 +54,16 @@ namespace ObeeNetwork.Activities.Articles.Adapters
                 var mainLinearLayoutManager = new LinearLayoutManager(context);
                 mainRecyclerView1.SetLayoutManager(mainLinearLayoutManager);
 
-                var sizeProvider = new FixedPreloadSizeProvider(10, 10);
-                var preLoader = new RecyclerViewPreloader<CommentsArticlesObject>(context, this, sizeProvider, 8);
+                var sizeProvider = new FixedPreloadSizeProvider(9, 9);
+                var preLoader = new RecyclerViewPreloader<CommentsArticlesObject>(context, this, sizeProvider, 6);
                 mainRecyclerView1.AddOnScrollListener(preLoader);
 
                 mainRecyclerView1.SetAdapter(this);
                 mainRecyclerView1.HasFixedSize = true;
-                mainRecyclerView1.SetItemViewCacheSize(10);
+                mainRecyclerView1.SetItemViewCacheSize(9);
                 mainRecyclerView1.ClearAnimation();
                 mainRecyclerView1.GetLayoutManager().ItemPrefetchEnabled = true;
-                mainRecyclerView1.SetItemViewCacheSize(10);
+                mainRecyclerView1.SetItemViewCacheSize(9);
 
                 MainScrollEvent = new RecyclerScrollListener();
                 mainRecyclerView1.AddOnScrollListener(MainScrollEvent);
