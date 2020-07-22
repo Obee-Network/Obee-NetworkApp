@@ -169,6 +169,97 @@ namespace ObeeNetwork.Activities.PopularPosts
                 Console.WriteLine(e);
             }
         }
+		
+		public override void OnLowMemory()
+        {
+            try
+            {
+                GC.Collect(GC.MaxGeneration);
+                base.OnLowMemory();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        protected override void OnDestroy()
+        {
+            try
+            {
+                DestroyBasic();
+                base.OnDestroy();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+        }
+        #endregion
+
+        #region Menu
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Android.Resource.Id.Home:
+                    Finish();
+                    return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        #endregion
+
+        #region Functions
+
+        private void InitComponent()
+        {
+            try
+            {
+                IconBack = FindViewById<ImageView>(Resource.Id.iv_back);
+
+                JobCoverImage = FindViewById<ImageView>(Resource.Id.JobCoverImage);
+                JobAvatar = FindViewById<ImageView>(Resource.Id.JobAvatar);
+                JobTitle = FindViewById<TextView>(Resource.Id.Jobtitle);
+                PageName = FindViewById<TextView>(Resource.Id.pageName);
+                JobInfo = FindViewById<AppCompatTextView>(Resource.Id.JobInfo);
+                JobButton = FindViewById<Button>(Resource.Id.JobButton);
+                JobButton.Tag = "Apply";
+
+                //MinimumTextView = FindViewById<TextView>(Resource.Id.minimum);
+                //MaximumTextView = FindViewById<TextView>(Resource.Id.maximum);
+                MaximumNumber = FindViewById<TextView>(Resource.Id.maximumNumber);
+                MinimumNumber = FindViewById<TextView>(Resource.Id.minimumNumber);
+                Description = FindViewById<SuperTextView>(Resource.Id.description);
+
+                var font = Typeface.CreateFromAsset(Resources.Assets, "ionicons.ttf");
+                JobInfo.SetTypeface(font, TypefaceStyle.Normal);
+
+                TxtMore = FindViewById<TextView>(Resource.Id.toolbar_title);
+                FontUtils.SetTextViewIcon(FontsIconFrameWork.IonIcons, TxtMore, IonIconsFonts.AndroidMoreVertical);
+                TxtMore.SetTextSize(ComplexUnitType.Sp, 20f);
+                TxtMore.Visibility = ViewStates.Gone;
+
+                ReadMoreOption = new StReadMoreOption.Builder()
+                    .TextLength(400, StReadMoreOption.TypeCharacter)
+                    .MoreLabel(GetText(Resource.String.Lbl_ReadMore))
+                    .LessLabel(GetText(Resource.String.Lbl_ReadLess))
+                    .MoreLabelColor(Color.ParseColor(AppSettings.MainColor))
+                    .LessLabelColor(Color.ParseColor(AppSettings.MainColor))
+                    .LabelUnderLine(true)
+                    .Build();
+
+                if (AppSettings.FlowDirectionRightToLeft)
+                    IconBack.SetImageResource(Resource.Drawable.ic_action_ic_back_rtl);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+
         private void DestroyBasic()
         {
             try
