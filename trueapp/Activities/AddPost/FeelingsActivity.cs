@@ -203,7 +203,7 @@ namespace ObeeNetwork.Activities.AddPost
                 MRecycler.AddItemDecoration(new GridSpacingItemDecoration(3, 3, true)); 
                 MRecycler.SetAdapter(MAdapter);
                 MRecycler.HasFixedSize = true;
-                MRecycler.SetItemViewCacheSize(10);
+                MRecycler.SetItemViewCacheSize(8);
                 MRecycler.GetLayoutManager().ItemPrefetchEnabled = true;
             }
             catch (Exception e)

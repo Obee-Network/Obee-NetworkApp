@@ -99,7 +99,6 @@ namespace ObeeNetwork.Activities.AddPost
                 Console.WriteLine(e);
             }
         }
-
         public override void OnTrimMemory(TrimMemory level)
         {
             try
@@ -229,7 +228,7 @@ namespace ObeeNetwork.Activities.AddPost
                 SwipeRefreshLayout.SetColorSchemeResources(Android.Resource.Color.HoloBlueLight, Android.Resource.Color.HoloGreenLight, Android.Resource.Color.HoloOrangeLight, Android.Resource.Color.HoloRedLight);
                 SwipeRefreshLayout.Refreshing = true;
                 SwipeRefreshLayout.Enabled = true;
-                SwipeRefreshLayout.SetProgressBackgroundColorSchemeColor(AppSettings.SetTabDarkTheme ? Color.ParseColor("#424242") : Color.ParseColor("#f7f7f7"));
+                SwipeRefreshLayout.SetProgressBackgroundColorSchemeColor(AppSettings.SetTabDarkTheme ? Color.ParseColor("#424255") : Color.ParseColor("#f8f8f8"));
 
                 MAdView = FindViewById<AdView>(Resource.Id.adView);
                 AdsGoogle.InitAdView(MAdView, MRecycler);
