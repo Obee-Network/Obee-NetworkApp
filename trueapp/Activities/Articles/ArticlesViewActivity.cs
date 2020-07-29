@@ -12,6 +12,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Text;
+using Android.Util;
 using Android.Views;
 using Android.Webkit;
 using Android.Widget;
@@ -221,7 +222,7 @@ namespace ObeeNetwork.Activities.Articles
                 ImgSent = FindViewById<ImageView>(Resource.Id.send);
 
                 TxtComment.Text = "";
-                Methods.SetColorEditText(TxtComment, AppSettings.SetTabDarkTheme ? Color.White : Color.green);
+                Methods.SetColorEditText(TxtComment, AppSettings.SetTabDarkTheme ? Color.White : Color.Black);
             }
             catch (Exception e)
             {
@@ -263,7 +264,7 @@ namespace ObeeNetwork.Activities.Articles
                 if (!Methods.CheckConnectivity())
                     Toast.MakeText(this, GetString(Resource.String.Lbl_CheckYourInternetConnection), ToastLength.Short).Show();
                 else
-                    PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => MAdapter.FetchBlogsApiComments(ArticlesId,"0") });
+                    PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => MAdapter.FetchBlogsApiComments(ArticlesId, "0") });
             }
             catch (Exception e)
             {
@@ -411,7 +412,7 @@ namespace ObeeNetwork.Activities.Articles
                                 {
                                     MAdapter.CommentList[index] = result.Data[0];
 
-                                    //CommentsAdapter.NotifyItemChanged(index);
+                                    //MAdapter.NotifyItemChanged(index);
                                     MRecycler.ScrollToPosition(index);
                                 }
                             }
@@ -570,19 +571,32 @@ namespace ObeeNetwork.Activities.Articles
                     GlideImageLoader.LoadImage(this, ArticleData.Thumbnail, ImageBlog, ImageStyle.CenterCrop, ImagePlaceholders.Drawable);
 
                     TxtUsername.Text = ObeeNetworkTools.GetNameFinal(ArticleData.Author);
-                    TxtTime.Text = ArticleData.Posted;
 
-                    TxtTitle.Text = Methods.FunString.DecodeString(ArticleData.Title); 
+                    TxtTitle.Text = Methods.FunString.DecodeString(ArticleData.Title);
                     TxtViews.Text = ArticleData.View + " " + GetText(Resource.String.Lbl_Views);
-                     
-                    string style = AppSettings.SetTabDarkTheme ? "<style type='text/css'>body{color: #fff; background-color: #282828;}</style>" : "<style type='text/css'>body{color: #444; background-color: #FFFAFA;}</style>";
 
-                    var content = Html.FromHtml(ArticleData.Content, FromHtmlOptions.ModeCompact).ToString();
+                    string style = AppSettings.SetTabDarkTheme ? "<style type='text/css'>body{color: #fff; background-color: #282828;}</style>" : "<style type='text/css'>body{color: #444; background-color: #FFFAFA;}</style>";
+                    string imageFullWidthStyle = "<style>img{display: inline;height: auto;max-width: 100%;}</style>";
+
+                    string content;
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+                    {
+                        content = Html.FromHtml(ArticleData.Content, FromHtmlOptions.ModeCompact).ToString();
+                    }
+                    else
+                    {
+                        // This method is deprecated but need to use for old os devices
+#pragma warning disable CS0618 // Type or member is obsolete
+                        content = Html.FromHtml(ArticleData.Content).ToString();
+#pragma warning restore CS0618 // Type or member is obsolete
+                    }
+
+                    //string content = Html.FromHtml(ArticleData.Content, FromHtmlOptions.ModeCompact).ToString();
                     DataWebHtml = "<!DOCTYPE html>";
-                    DataWebHtml += "<head><title></title>"+ style + "</head>";
+                    DataWebHtml += "<head><title></title>" + style + imageFullWidthStyle + "</head>";
                     DataWebHtml += "<body>" + content + "</body>";
                     DataWebHtml += "</html>";
-
+                    // <meta name='viewport' content='width=device-width, user-scalable=no' />
                     TxtHtml.SetWebViewClient(new MyWebViewClient(this));
                     TxtHtml.Settings.LoadsImagesAutomatically = true;
                     TxtHtml.Settings.JavaScriptEnabled = true;
@@ -592,17 +606,31 @@ namespace ObeeNetwork.Activities.Articles
                     TxtHtml.Settings.AllowFileAccess = true;
                     TxtHtml.Settings.DefaultTextEncodingName = "utf-8";
 
+                    TxtHtml.Settings.UseWideViewPort = (true);
+                    TxtHtml.Settings.LoadWithOverviewMode = (true);
+
+                    TxtHtml.Settings.SetSupportZoom(false);
+                    TxtHtml.Settings.BuiltInZoomControls = (false);
+                    TxtHtml.Settings.DisplayZoomControls = (false);
+
+                    int fontSize = (int)TypedValue.ApplyDimension(ComplexUnitType.Sp, 18, Resources.DisplayMetrics);
+                    TxtHtml.Settings.DefaultFontSize = fontSize;
+
                     TxtHtml.LoadDataWithBaseURL(null, DataWebHtml, "text/html", "UTF-8", null);
-					//文章显示增加时间戳
-					bool success = int.TryParse(ArticleData.Posted, out var number);
+
+                    bool success = int.TryParse(ArticleData.Posted, out var number);
+                    string Timedate = "";
                     if (success)
                     {
-                        TxtTime.Text = Methods.Time.TimeAgo(Convert.ToInt32(number));
+                        TxtTime.Text = Timedate;
+                        //TxtTime.Text = Methods.Time.TimeAgo(Convert.ToInt32(number));
                     }
                     else
                     {
-                        TxtTime.Text = ArticleData.Posted;
+                        TxtTime.Text = Timedate;
+                        //TxtTime.Text = ArticleData.Posted;
                     }
+
                     if (Methods.CheckConnectivity())
                         PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Article.GetBlogById(ArticlesId) });
                 }
@@ -612,8 +640,8 @@ namespace ObeeNetwork.Activities.Articles
                 Console.WriteLine(e);
             }
         }
-          
-        private class MyWebViewClient : WebViewClient 
+
+        private class MyWebViewClient : WebViewClient
         {
             private readonly ArticlesViewActivity Activity;
             public MyWebViewClient(ArticlesViewActivity mActivity)
@@ -625,8 +653,8 @@ namespace ObeeNetwork.Activities.Articles
             {
                 Methods.App.OpenbrowserUrl(Activity, request.Url.ToString());
                 view.LoadDataWithBaseURL(null, Activity.DataWebHtml, "text/html", "UTF-8", null);
-                return true; 
-            }  
-        } 
+                return true;
+            }
+        }
     }
 }
