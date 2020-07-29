@@ -167,6 +167,118 @@ namespace ObeeNetwork.Activities.Tabbes
                 Console.WriteLine(e);
             } 
         }
+		
+		        public void OnSelection(MaterialDialog p0, View p1, int itemId, ICharSequence itemString)
+        {
+            try
+            {
+                string text = itemString.ToString();
+                if (text == MainContext.GetString(Resource.String.Lbl_CopeText))
+                {
+                    Methods.CopyToClipboard(MainContext,Methods.FunString.DecodeString(CommentObject.Text));
+                }
+                else if (text == MainContext.GetString(Resource.String.Lbl_Report))
+                {
+                    if (!Methods.CheckConnectivity())
+                        Toast.MakeText(MainContext, MainContext.GetString(Resource.String.Lbl_CheckYourInternetConnection), ToastLength.Short).Show();
+                    else
+                        PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Comment.ReportCommentAsync(CommentObject.Id) });
+
+                    Toast.MakeText(MainContext, MainContext.GetString(Resource.String.Lbl_YourReportPost), ToastLength.Short).Show();
+                }
+                else if (text == MainContext.GetString(Resource.String.Lbl_Edit))
+                {
+                    EditCommentEvent(CommentObject);
+                }
+                else if (text == MainContext.GetString(Resource.String.Lbl_Delete))
+                {
+                    DeleteCommentEvent(CommentObject);
+                } 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public void OnClick(MaterialDialog p0, DialogAction p1)
+        {
+            try
+            {
+                if (p1 == DialogAction.Positive)
+                {
+                    if (TypeDialog == "DeleteComment")
+                    {
+                        MainContext.RunOnUiThread(() =>
+                        {
+                            try
+                            {
+                                if (TypeClass == "Comment")
+                                {
+                                    //TypeClass
+                                    var adapterGlobal = CommentActivity.GetInstance()?.CommentsAdapter;
+                                    var dataGlobal = adapterGlobal?.CommentList?.FirstOrDefault(a => a.Id == CommentObject?.Id);
+                                    if (dataGlobal != null)
+                                    {
+
+                                        var index = adapterGlobal.CommentList.IndexOf(dataGlobal);
+                                        if (index > -1)
+                                        {
+                                            adapterGlobal.CommentList.RemoveAt(index);
+                                            adapterGlobal.NotifyItemRemoved(index);
+                                        }
+                                    }
+
+                                    PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Comment.DeleteCommentAsync(CommentObject.Id) });
+                                }
+                                else if (TypeClass == "Reply")
+                                {
+                                    //TypeClass
+                                    var adapterGlobal = ReplyCommentActivity.GetInstance()?.MAdapter;
+                                    var dataGlobal = adapterGlobal?.ReplyCommentList?.FirstOrDefault(a => a.Id == CommentObject?.Id);
+                                    if (dataGlobal != null)
+                                    {
+
+                                        var index = adapterGlobal.ReplyCommentList.IndexOf(dataGlobal);
+                                        if (index > -1)
+                                        {
+                                            adapterGlobal.ReplyCommentList.RemoveAt(index);
+                                            adapterGlobal.NotifyItemRemoved(index);
+                                        }
+                                    }
+
+                                    PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Comment.DeleteCommentAsync(CommentObject.Id, "delete_reply") });
+                                }
+                                 
+                                Toast.MakeText(MainContext, MainContext.GetText(Resource.String.Lbl_CommentSuccessfullyDeleted), ToastLength.Short).Show();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        if (p1 == DialogAction.Positive)
+                        {
+                        }
+                        else if (p1 == DialogAction.Negative)
+                        {
+                            p0.Dismiss();
+                        }
+                    }
+                }
+                else if (p1 == DialogAction.Negative)
+                {
+                    p0.Dismiss();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
         public override void OnTrimMemory(TrimMemory level)
         {
