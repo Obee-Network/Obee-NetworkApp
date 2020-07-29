@@ -593,7 +593,16 @@ namespace ObeeNetwork.Activities.Articles
                     TxtHtml.Settings.DefaultTextEncodingName = "utf-8";
 
                     TxtHtml.LoadDataWithBaseURL(null, DataWebHtml, "text/html", "UTF-8", null);
-
+					//文章显示增加时间戳
+					bool success = int.TryParse(ArticleData.Posted, out var number);
+                    if (success)
+                    {
+                        TxtTime.Text = Methods.Time.TimeAgo(Convert.ToInt32(number));
+                    }
+                    else
+                    {
+                        TxtTime.Text = ArticleData.Posted;
+                    }
                     if (Methods.CheckConnectivity())
                         PollyController.RunRetryPolicyFunction(new List<Func<Task>> { () => RequestsAsync.Article.GetBlogById(ArticlesId) });
                 }
