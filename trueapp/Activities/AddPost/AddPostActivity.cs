@@ -22,7 +22,6 @@ using Bumptech.Glide.Request;
 using Com.Luseen.Autolinklibrary;
 using Com.Sothree.Slidinguppanel;
 using Com.Theartofdev.Edmodo.Cropper;
-using Java.IO;
 using Java.Lang;
 using Newtonsoft.Json;
 using ObeeNetwork.Activities.AddPost.Adapters;
@@ -38,6 +37,7 @@ using ObeeNetworkClient.Classes.Posts;
 using Xamarin.Facebook.Ads;
 using Console = System.Console;
 using Exception = System.Exception;
+using File = Java.IO.File;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
 using Uri = Android.Net.Uri;
 
@@ -49,19 +49,20 @@ namespace ObeeNetwork.Activities.AddPost
         #region Variables Basic
 
         private Toolbar TopToolBar;
-        private SlidingUpPanelLayout SlidingUpPanel;
+        public SlidingUpPanelLayout SlidingUpPanel;
         private ImageView PostSectionImage;
         private TextView TxtAddPost, TxtUserName;
         private EditText TxtContentPost;
         private RecyclerView PostTypeRecyclerView, AttachmentRecyclerView, PollRecyclerView, ColorBoxRecyclerView;
         private MainPostAdapter MainPostAdapter;
-        private AttachmentsAdapter AttachmentsAdapter;
+        public AttachmentsAdapter AttachmentsAdapter;
         private ImageView IconHappy, IconTag, IconImage, ColoredImage;
         private AddPollAdapter AddPollAnswerAdapter;
         private ColorBoxAdapter ColorBoxAdapter;
         private NestedScrollView ScrollView;
         private View ImportPanel;
-        private Button AddAnswerButton, PostPrivacyButton , NameAlbumButton;
+        private Button AddAnswerButton, PostPrivacyButton;
+        public Button NameAlbumButton;
         private AutoLinkTextView MentionTextView;
         private string MentionText = "", PlaceText = "", FeelingText = "";
         private readonly string ActivityText = "";
@@ -76,7 +77,9 @@ namespace ObeeNetwork.Activities.AddPost
         private PageClass DataPage;
         private static AddPostActivity Instance;
         private InterstitialAd InterstitialAd;
-
+        private UserDataObject DataUser;
+        private VoiceRecorder VoiceRecorder;
+        
         #endregion
 
         #region General
@@ -658,7 +661,28 @@ namespace ObeeNetwork.Activities.AddPost
                                 new PermissionsController(this).RequestPermission(100);
                         }
                     }
-                    else if (MainPostAdapter.PostTypeList[e.Position].Id == 10) // Polls
+                    else if (MainPostAdapter.PostTypeList[e.Position].Id == 10) // VoiceRecorder
+                    {
+                        PermissionsType = "Music";
+
+                        // Check if we're running on Android 5.0 or higher
+                        if ((int)Build.VERSION.SdkInt < 23)
+                        { 
+                            VoiceRecorder = new VoiceRecorder();
+                            VoiceRecorder.Show(SupportFragmentManager, VoiceRecorder.Tag);  
+                        }  
+                        else
+                        {
+                            if (CheckSelfPermission(Manifest.Permission.ReadExternalStorage) == Permission.Granted && CheckSelfPermission(Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+                            {
+                                VoiceRecorder = new VoiceRecorder();
+                                VoiceRecorder.Show(SupportFragmentManager, VoiceRecorder.Tag);
+                            }
+                            else
+                                new PermissionsController(this).RequestPermission(102);
+                        }
+                    }
+                    else if (MainPostAdapter.PostTypeList[e.Position].Id == 11) // Polls
                     { 
                         if (ColoredImage.Visibility != ViewStates.Gone)
                         {
@@ -836,7 +860,15 @@ namespace ObeeNetwork.Activities.AddPost
                             if (imageAttach.Count > 0)
                                 foreach (var image in imageAttach)
                                     AttachmentsAdapter.Remove(image);
+                              //wael
+                            //File f = new File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryMovies) + "/Silicompressor/videos");
 
+                            //if (!Directory.Exists(f.Path))
+                            //    Directory.CreateDirectory(f.Path);
+
+                            //Uri videoContentUri = data.Data;
+                            //new VideoCompressAsyncTask(this).Execute("false", filepath, f.Path);
+                             
                             var attach = new Attachments
                             {
                                 Id = AttachmentsAdapter.AttachmentList.Count + 1,
@@ -903,45 +935,7 @@ namespace ObeeNetwork.Activities.AddPost
                         UriData = data.Data;
                         var filepath2 = Methods.AttachmentFiles.GetActualPathFromFile(this, UriData);
                         PickiTonCompleteListener(filepath2);
-                    }
-
-                    //if (string.IsNullOrEmpty(IntentController.CurrentVideoPath))
-                    //{
-                    //    uriData = data.Data;
-                    //    PickiT.GetPath(uriData, (int)Build.VERSION.SdkInt);
-                    //}
-                    //else
-                    //{
-                    //    if (Methods.MultiMedia.CheckFileIfExits(IntentController.CurrentVideoPath) != "File Dont Exists")
-                    //    {
-                    //        var fileName = IntentController.CurrentVideoPath.Split('/').Last();
-                    //        var fileNameWithoutExtenion = fileName.Split('.').First();
-
-                    //        var pathImage = Methods.Path.FolderDcimImage + "/" + fileNameWithoutExtenion + ".png";
-
-                    //        var videoPlaceHolderImage = Methods.MultiMedia.GetMediaFrom_Gallery(Methods.Path.FolderDcimImage, fileNameWithoutExtenion + ".png");
-                    //        if (videoPlaceHolderImage == "File Dont Exists")
-                    //        {
-                    //            var bitmapImage = Methods.MultiMedia.Retrieve_VideoFrame_AsBitmap(this, uriData.ToString());
-                    //            Methods.MultiMedia.Export_Bitmap_As_Image(bitmapImage, fileNameWithoutExtenion, Methods.Path.FolderDcimImage);
-                    //        }
-
-                    //        var attach = new Attachments
-                    //        {
-                    //            Id = AttachmentsAdapter.AttachmentList.Count + 1,
-                    //            TypeAttachment = "postVideo",
-                    //            FileSimple = pathImage,
-                    //            Thumb = new Attachments.VideoThumb()
-                    //            {
-                    //                FileUrl = ""
-                    //            },
-
-                    //            FileUrl = IntentController.CurrentVideoPath
-                    //        };
-
-                    //        AttachmentsAdapter.Add(attach);
-                    //    }
-                    //}
+                    } 
                 }
                 else if (requestCode == 3 && resultCode == Result.Ok) // Mention
                 {
@@ -1187,6 +1181,18 @@ namespace ObeeNetwork.Activities.AddPost
                         Toast.MakeText(this, GetText(Resource.String.Lbl_Permission_is_denied), ToastLength.Long).Show();
                     }
                 }
+                else if (requestCode == 102)
+                {
+                    if (grantResults.Length > 0 && grantResults[0] == Permission.Granted)
+                    {
+                        VoiceRecorder = new VoiceRecorder();
+                        VoiceRecorder.Show(SupportFragmentManager, VoiceRecorder.Tag);
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, GetText(Resource.String.Lbl_Permission_is_denied), ToastLength.Long).Show();
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -1281,12 +1287,11 @@ namespace ObeeNetwork.Activities.AddPost
         {
             try
             {
-                var dataUser = ListUtils.MyProfileList?.FirstOrDefault();
-                if (dataUser != null)
+                if (DataUser != null)
                 {
-                    GlideImageLoader.LoadImage(this, dataUser.Avatar, PostSectionImage, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
+                    GlideImageLoader.LoadImage(this, DataUser.Avatar, PostSectionImage, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
 
-                    TxtUserName.Text = ObeeNetworkTools.GetNameFinal(dataUser);
+                    TxtUserName.Text = ObeeNetworkTools.GetNameFinal(DataUser);
 
                     PostPrivacyButton.Text = GetString(Resource.String.Lbl_Everyone);
 
@@ -1316,6 +1321,7 @@ namespace ObeeNetwork.Activities.AddPost
         {
             try
             {
+                DataUser = ListUtils.MyProfileList?.FirstOrDefault();
                 if (PagePost == "Normal" || PagePost == "Normal_More" || PagePost == "Normal_Gallery")
                 {
                     LoadDataUser();
@@ -1361,7 +1367,10 @@ namespace ObeeNetwork.Activities.AddPost
                     DataGroup = JsonConvert.DeserializeObject<GroupClass>(Intent.GetStringExtra("itemObject"));
                     if (DataGroup != null)
                     {
-                        PostPrivacyButton.Visibility = ViewStates.Gone;
+                        PostPrivacyButton.SetBackgroundResource(0);
+                        PostPrivacyButton.Enabled = false;
+                        PostPrivacyButton.Text = GetText(Resource.String.Lbl_PostingAs) + " " + ObeeNetworkTools.GetNameFinal(DataUser);
+
                         GlideImageLoader.LoadImage(this, DataGroup.Avatar, PostSectionImage, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
                         TxtUserName.Text = DataGroup.GroupName;
                     }
@@ -1375,7 +1384,10 @@ namespace ObeeNetwork.Activities.AddPost
                     DataPage = JsonConvert.DeserializeObject<PageClass>(Intent.GetStringExtra("itemObject"));
                     if (DataPage != null)
                     {
-                        PostPrivacyButton.Visibility = ViewStates.Gone;
+                        PostPrivacyButton.SetBackgroundResource(0);
+                        PostPrivacyButton.Enabled = false;
+                        PostPrivacyButton.Text = GetText(Resource.String.Lbl_PostingAs) + " " + ObeeNetworkTools.GetNameFinal(DataUser);
+
                         GlideImageLoader.LoadImage(this, DataPage.Avatar, PostSectionImage, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
                         TxtUserName.Text = DataPage.PageName;
                     }
@@ -1389,7 +1401,10 @@ namespace ObeeNetwork.Activities.AddPost
                     DataEvent = JsonConvert.DeserializeObject<EventDataObject>(Intent.GetStringExtra("itemObject"));
                     if (DataEvent != null)
                     {
-                        PostPrivacyButton.Visibility = ViewStates.Gone;
+                        PostPrivacyButton.SetBackgroundResource(0);
+                        PostPrivacyButton.Enabled = false;
+                        PostPrivacyButton.Text = GetText(Resource.String.Lbl_PostingAs) + " " + ObeeNetworkTools.GetNameFinal(DataUser);
+
                         GlideImageLoader.LoadImage(this, DataEvent.Cover, PostSectionImage, ImageStyle.CircleCrop, ImagePlaceholders.Drawable);
                         TxtUserName.Text = DataEvent.Name;
                     }
