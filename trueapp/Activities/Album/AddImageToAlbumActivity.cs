@@ -337,7 +337,7 @@ namespace ObeeNetwork.Activities.Album
                         {
                             if (result.Data.PhotoAlbum.Count > 0)
                             {
-                                AndHUD.Shared.ShowSuccess(this);
+                                AndHUD.Shared.ShowSuccess(this, "" , MaskType.Clear, TimeSpan.FromSeconds(2));
 
                                 //AlbumItem >> PostDataObject  
                                 Intent returnIntent = new Intent();
@@ -348,9 +348,10 @@ namespace ObeeNetwork.Activities.Album
                         } 
                     }
                 }
-                else Methods.DisplayReportResult(this, respond);
-
-                AndHUD.Shared.Dismiss(this);
+                else
+                {
+                    Methods.DisplayAndHUDErrorResult(this, respond);
+                } 
             }
             catch (Exception exception)
             {
